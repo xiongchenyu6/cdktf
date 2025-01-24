@@ -10,17 +10,19 @@ jobs:
   terraform:
     name: "Terraform CDK Diff"
     runs-on: ubuntu-latest
+    env:
+      TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
-      - use: actions/setup-terraform@v3
+      - uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.10.4
+          terraform_version: 1.10.5
 
       - name: Install dependencies
         run: yarn install
@@ -34,6 +36,6 @@ jobs:
           cdktfVersion: 0.20.11
           terraformVersion: 1.10.5
           mode: plan-only
-          stackName: my-stack
+          stackName: cdktf
           terraformCloudToken: ${{ secrets.TF_API_TOKEN }}
           githubToken: ${{ secrets.GITHUB_TOKEN }}

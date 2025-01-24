@@ -63,7 +63,7 @@ You can read more about this at https://cdk.tf/variables*/
     createDnsRecord(this, "netbird_autolife", autolife, "netbird", "47.128.253.85", false);
     createDnsRecord(this, "rust-server_autolife", autolife, "rust-server", "47.128.253.85", false);
     createDnsRecord(this, "vr_sg_autolife", autolife, "vr-sg", "47.128.253.85", false);
-    createDnsRecord(this, "www_autolife", autolife, "www", "47.128.253.85", true);
+    //createDnsRecord(this, "www_autolife", autolife, "www", "47.128.253.85", true);
   }
 }
 
