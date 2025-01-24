@@ -75,4 +75,4 @@ jobs:
           stackName: cdktf
           terraformCloudToken: ${{ secrets.TF_API_TOKEN }}
           githubToken: ${{ secrets.GITHUB_TOKEN }}
-          mode: deploy
+          mode: auto-approve-apply
