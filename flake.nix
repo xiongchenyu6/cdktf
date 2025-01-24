@@ -27,35 +27,14 @@
         }:
         with pkgs;
         {
-          packages.default = stdenv.mkDerivation {
-            name = "corepack-shims";
-            buildInputs = [ nodejs ];
-            phases = [ "installPhase" ];
-            installPhase = ''
-              mkdir -p $out/bin
-              corepack enable --install-directory=$out/bin
-            '';
-          };
           devShells.default =
-            let
-              lib-path = lib.makeLibraryPath (
-                with pkgs;
-                lib.optionals stdenv.isLinux [
-                  nixfmt-rfc-style
-                  stdenv.cc.cc
-                ]
-              );
-            in
             pkgs.mkShell {
               buildInputs = with pkgs; [
                 nixfmt-rfc-style
                 nixd
-                nodejs
-                self'.packages.default
-                nodePackages.cdktf-cli
+                bun
                 tenv
               ];
-              LD_LIBRARY_PATH = "$LD_LIBRARY_PATH:${lib-path}";
             };
         };
     };
