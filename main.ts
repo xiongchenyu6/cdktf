@@ -67,7 +67,9 @@ You can read more about this at https://cdk.tf/variables*/
   }
 }
 
-const app = new App();
+const app = new App({
+  skipValidation: true
+});
 const stack = new MyStack(app, "cdktf");
 new CloudBackend(stack, {
   hostname: "app.terraform.io",
