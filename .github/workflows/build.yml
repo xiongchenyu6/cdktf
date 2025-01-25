@@ -11,8 +11,8 @@ permissions:
   pull-requests: write
 
 jobs:
-  terraform:
-    name: "Terraform CDK Diff"
+  plan:
+    name: "Terraform CDK Plan"
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     env:
@@ -34,6 +34,9 @@ jobs:
 
       - name: Generate module and provider bindings
         run: npx cdktf-cli get
+
+      - name: Run tests
+        run: yarn test
 
       - name: Run Terraform CDK
         uses: hashicorp/terraform-cdk-action@v7.0.0
