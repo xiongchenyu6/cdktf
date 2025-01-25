@@ -26,16 +26,23 @@
           ...
         }:
         with pkgs;
-        {
-          devShells.default =
-            pkgs.mkShell {
-              buildInputs = with pkgs; [
-                nixfmt-rfc-style
-                nixd
-                bun
-                tenv
-              ];
+        let
+          pkgs = import nixpkgs {
+            inherit system;
+            config = {
+              allowUnfree = true;
             };
+          };
+        in
+        {
+          devShells.default = pkgs.mkShell {
+            nativeBuildInputs = with pkgs; [
+              nixfmt-rfc-style
+              nixd
+              terraform
+              terraform-ls
+            ];
+          };
         };
     };
 }

@@ -1,89 +1,39 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import "cdktf/lib/testing/adapters/jest"; // Load types for expect matchers
-// import { Testing } from "cdktf";
+import { Testing } from "cdktf";
+import { DnsRecord } from "../.gen/providers/cloudflare/dns-record";
+import { Zone } from "../.gen/providers/cloudflare/zone";
+import { CloudflareProvider } from "../.gen/providers/cloudflare/provider";
+import { MyStack } from "../main";
 
 describe("My CDKTF Application", () => {
-  // The tests below are example tests, you can find more information at
-  // https://cdk.tf/testing
-  it.todo("should be tested");
+  it("should create CloudFlare zones", () => {
+    const app = Testing.app();
+    const stack = new MyStack(app, "test");
+    
+    expect(Testing.synth(stack)).toHaveResource(Zone);
+    expect(Testing.synth(stack)).toHaveResourceWithProperties(Zone, {
+      name: "autolife-robotics.me"
+    });
+  });
 
-  // // All Unit tests test the synthesised terraform code, it does not create real-world resources
-  // describe("Unit testing using assertions", () => {
-  //   it("should contain a resource", () => {
-  //     // import { Image,Container } from "./.gen/providers/docker"
-  //     expect(
-  //       Testing.synthScope((scope) => {
-  //         new MyApplicationsAbstraction(scope, "my-app", {});
-  //       })
-  //     ).toHaveResource(Container);
+  it("should create DNS records", () => {
+    const app = Testing.app();
+    const stack = new MyStack(app, "test");
+    
+    expect(Testing.synth(stack)).toHaveResource(DnsRecord);
+    expect(Testing.synth(stack)).toHaveResourceWithProperties(DnsRecord, {
+      name: "frp-dashboard",
+      content: "47.128.253.85",
+      type: "A"
+    });
+  });
 
-  //     expect(
-  //       Testing.synthScope((scope) => {
-  //         new MyApplicationsAbstraction(scope, "my-app", {});
-  //       })
-  //     ).toHaveResourceWithProperties(Image, { name: "ubuntu:latest" });
-  //   });
-  // });
-
-  // describe("Unit testing using snapshots", () => {
-  //   it("Tests the snapshot", () => {
-  //     const app = Testing.app();
-  //     const stack = new TerraformStack(app, "test");
-
-  //     new TestProvider(stack, "provider", {
-  //       accessKey: "1",
-  //     });
-
-  //     new TestResource(stack, "test", {
-  //       name: "my-resource",
-  //     });
-
-  //     expect(Testing.synth(stack)).toMatchSnapshot();
-  //   });
-
-  //   it("Tests a combination of resources", () => {
-  //     expect(
-  //       Testing.synthScope((stack) => {
-  //         new TestDataSource(stack, "test-data-source", {
-  //           name: "foo",
-  //         });
-
-  //         new TestResource(stack, "test-resource", {
-  //           name: "bar",
-  //         });
-  //       })
-  //     ).toMatchInlineSnapshot();
-  //   });
-  // });
-
-  // describe("Checking validity", () => {
-  //   it("check if the produced terraform configuration is valid", () => {
-  //     const app = Testing.app();
-  //     const stack = new TerraformStack(app, "test");
-
-  //     new TestDataSource(stack, "test-data-source", {
-  //       name: "foo",
-  //     });
-
-  //     new TestResource(stack, "test-resource", {
-  //       name: "bar",
-  //     });
-  //     expect(Testing.fullSynth(app)).toBeValidTerraform();
-  //   });
-
-  //   it("check if this can be planned", () => {
-  //     const app = Testing.app();
-  //     const stack = new TerraformStack(app, "test");
-
-  //     new TestDataSource(stack, "test-data-source", {
-  //       name: "foo",
-  //     });
-
-  //     new TestResource(stack, "test-resource", {
-  //       name: "bar",
-  //     });
-  //     expect(Testing.fullSynth(app)).toPlanSuccessfully();
-  //   });
-  // });
+  it("should have CloudFlare provider", () => {
+    const app = Testing.app();
+    const stack = new MyStack(app, "test");
+    
+    expect(Testing.synth(stack)).toHaveProvider(CloudflareProvider);
+  });
 });

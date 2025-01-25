@@ -9,7 +9,7 @@ import { Zone } from "./.gen/providers/cloudflare/zone";
 import { Construct } from "constructs";
 import { App, TerraformStack, CloudBackend, NamedCloudWorkspace, VariableType, TerraformVariable  } from "cdktf";
 
-class MyStack extends TerraformStack {
+export class MyStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
