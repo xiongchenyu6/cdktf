@@ -7,9 +7,9 @@ import { CloudflareProvider } from "./.gen/providers/cloudflare/provider";
 import { Zone } from "./.gen/providers/cloudflare/zone";
 
 import { Construct } from "constructs";
-import { App, TerraformStack, CloudBackend, NamedCloudWorkspace, VariableType, TerraformVariable  } from "cdktf";
+import { App, TerraformStack, CloudBackend, NamedCloudWorkspace, VariableType, TerraformVariable } from "cdktf";
 
-class MyStack extends TerraformStack {
+export class MyStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
@@ -48,6 +48,23 @@ You can read more about this at https://cdk.tf/variables*/
       });
     }
 
+    function createCnameRecord(
+      scope: Construct,
+      name: string,
+      zone: Zone,
+      recordName: string,
+      content: string
+    ) {
+      return new DnsRecord(scope, name, {
+        content,
+        name: recordName,
+        proxied: false,
+        ttl: 1,
+        type: "CNAME",
+        zoneId: zone.id,
+      });
+    }
+
     const autolife = createZone(this, "autolife", "autolife-robotics.me");
     createZone(this, "autolife-ai", "autolife.ai");
     const autolifeTech = createZone(this, "autolife-tech", "auto-life.tech");
@@ -56,14 +73,16 @@ You can read more about this at https://cdk.tf/variables*/
       apiToken: cloudflareApiToken.stringValue,
     });
 
-    createDnsRecord(this, "frp_dashboard_autolife", autolife, "frp-dashboard", "47.128.253.85", false);
+    createDnsRecord(this, "frp_dashboard_autolife", autolife, "frp-dashboard", "52.221.229.198", false);
     createDnsRecord(this, "mail-www", autolifeTech, "auto-life.tech", "43.156.66.157", false);
-    createDnsRecord(this, "mainpage_autolife", autolife, "autolife-robotics.me", "47.128.253.85", true);
-    createDnsRecord(this, "mngt_autolife", autolife, "mngt", "47.128.253.85", false);
-    createDnsRecord(this, "netbird_autolife", autolife, "netbird", "47.128.253.85", false);
-    createDnsRecord(this, "rust-server_autolife", autolife, "rust-server", "47.128.253.85", false);
-    createDnsRecord(this, "vr_sg_autolife", autolife, "vr-sg", "47.128.253.85", false);
-    createDnsRecord(this, "www_autolife", autolife, "www", "47.128.253.85", true);
+    createDnsRecord(this, "mainpage_autolife", autolife, "autolife-robotics.me", "52.221.229.198", true);
+    createDnsRecord(this, "mngt_autolife", autolife, "mngt", "52.221.229.198", false);
+    createDnsRecord(this, "netbird_autolife", autolife, "netbird", "52.221.229.198", false);
+    createDnsRecord(this, "rust-server_autolife", autolife, "rust-server", "52.221.229.198", false);
+    createDnsRecord(this, "vr_sg_autolife", autolife, "vr-sg", "52.221.229.198", false);
+    createDnsRecord(this, "www_autolife", autolife, "www", "52.221.229.198", true);
+    createDnsRecord(this, "ollama", autolife, "ollama", "52.221.229.198", false);
+    createCnameRecord(this, "freeman_cname", autolife, "freeman", "cname.vercel-dns.com.");
   }
 }
 
