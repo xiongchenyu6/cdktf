@@ -48,6 +48,23 @@ You can read more about this at https://cdk.tf/variables*/
       });
     }
 
+    function createCnameRecord(
+      scope: Construct,
+      name: string,
+      zone: Zone,
+      recordName: string,
+      content: string
+    ) {
+      return new DnsRecord(scope, name, {
+        content,
+        name: recordName,
+        proxied: false,
+        ttl: 1,
+        type: "CNAME",
+        zoneId: zone.id,
+      });
+    }
+
     const autolife = createZone(this, "autolife", "autolife-robotics.me");
     createZone(this, "autolife-ai", "autolife.ai");
     const autolifeTech = createZone(this, "autolife-tech", "auto-life.tech");
@@ -64,6 +81,7 @@ You can read more about this at https://cdk.tf/variables*/
     createDnsRecord(this, "rust-server_autolife", autolife, "rust-server", "47.128.253.85", false);
     createDnsRecord(this, "vr_sg_autolife", autolife, "vr-sg", "47.128.253.85", false);
     createDnsRecord(this, "www_autolife", autolife, "www", "47.128.253.85", true);
+    createCnameRecord(this, "freeman_cname", autolife, "freeman", "cname.vercel-dns.com.");
   }
 }
 
