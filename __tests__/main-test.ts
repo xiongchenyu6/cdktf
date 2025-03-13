@@ -25,7 +25,7 @@ describe("My CDKTF Application", () => {
     expect(Testing.synth(stack)).toHaveResource(DnsRecord);
     expect(Testing.synth(stack)).toHaveResourceWithProperties(DnsRecord, {
       name: "frp-dashboard",
-      content: "47.128.253.85",
+      content: "52.221.229.19888",
       type: "A"
     });
   });

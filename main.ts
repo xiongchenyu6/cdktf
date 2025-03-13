@@ -74,7 +74,6 @@ You can read more about this at https://cdk.tf/variables*/
     });
 
     createDnsRecord(this, "frp_dashboard_autolife", autolife, "frp-dashboard", "52.221.229.198", false);
-    createDnsRecord(this, "mail-www", autolifeTech, "auto-life.tech", "43.156.66.157", false);
     createDnsRecord(this, "mainpage_autolife", autolife, "autolife-robotics.me", "52.221.229.198", true);
     createDnsRecord(this, "mngt_autolife", autolife, "mngt", "52.221.229.198", false);
     createDnsRecord(this, "netbird_autolife", autolife, "netbird", "52.221.229.198", false);
@@ -83,6 +82,7 @@ You can read more about this at https://cdk.tf/variables*/
     createDnsRecord(this, "www_autolife", autolife, "www", "52.221.229.198", true);
     createDnsRecord(this, "ollama", autolife, "ollama", "52.221.229.198", false);
     createCnameRecord(this, "freeman_cname", autolife, "freeman", "cname.vercel-dns.com.");
+    createDnsRecord(this, "kanidm", autolifeTech, "kanidm", "213.35.97.233", false);
   }
 }
 
