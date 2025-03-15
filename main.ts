@@ -81,18 +81,23 @@ You can read more about this at https://cdk.tf/variables*/
     createDnsRecord(this, "vr_sg_autolife", autolife, "vr-sg", "52.221.229.198", false);
     createDnsRecord(this, "www_autolife", autolife, "www", "52.221.229.198", true);
     createDnsRecord(this, "ollama", autolife, "ollama", "52.221.229.198", false);
+    createDnsRecord(this, "api", autolife, "api", "52.221.229.198", false);
     createCnameRecord(this, "freeman_cname", autolife, "freeman", "cname.vercel-dns.com.");
     createDnsRecord(this, "kanidm", autolifeTech, "kanidm", "213.35.97.233", false);
+
   }
 }
 
 const app = new App({
   skipValidation: true
 });
+
 const stack = new MyStack(app, "cdktf");
+
 new CloudBackend(stack, {
   hostname: "app.terraform.io",
   organization: "autolife-robotics",
   workspaces: new NamedCloudWorkspace("cdktf"),
 });
+
 app.synth();
