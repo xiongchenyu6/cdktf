@@ -69,6 +69,7 @@ You can read more about this at https://cdk.tf/variables*/
     createZone(this, "autolife-ai", "autolife.ai");
     const autolifeTech = createZone(this, "autolife-tech", "auto-life.tech");
     createZone(this,"autolife.dpdns.org", "autolife.dpdns.org");
+    createZone(this,"xiongchenyu.dpdns.org", "xiongchenyu.dpdns.org");
     
     new CloudflareProvider(this, "cloudflare", {
       apiToken: cloudflareApiToken.stringValue,
