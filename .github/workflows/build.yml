@@ -39,7 +39,7 @@ jobs:
         run: yarn test
 
       - name: Run Terraform CDK
-        uses: hashicorp/terraform-cdk-action@v9.0.1
+        uses: hashicorp/terraform-cdk-action@v11.0.1
         with:
           cdktfVersion: 0.20.11
           terraformVersion: 1.10.5
@@ -71,7 +71,7 @@ jobs:
         run: npx cdktf-cli get
 
       - name: Deploy
-        uses: hashicorp/terraform-cdk-action@v9.0.1
+        uses: hashicorp/terraform-cdk-action@v11.0.1
         with:
           cdktfVersion: 0.20.11
           terraformVersion: 1.10.5
