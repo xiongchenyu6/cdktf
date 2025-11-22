@@ -1,12 +1,19 @@
-*.d.ts
-*.js
-node_modules
-cdktf.out
-cdktf.log
-*terraform.*.tfstate*
-.gen
-.terraform
-tsconfig.tsbuildinfo
-!jest.config.js
-!setup.js
-.direnv
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+.terraform.lock.hcl
+crash.log
+crash.*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo

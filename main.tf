@@ -9,11 +9,10 @@ terraform {
   }
 
   cloud {
-    hostname     = "app.terraform.io"
     organization = "autolife-robotics"
 
     workspaces {
-      name = "cdktf"
+      name = "dotfiles"
     }
   }
 }
