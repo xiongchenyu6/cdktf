@@ -65,11 +65,9 @@ You can read more about this at https://cdk.tf/variables*/
       });
     }
 
-    createZone(this, "autolife-ai", "autolife.ai");
-    const autolifeTech = createZone(this, "autolife-tech", "auto-life.tech");
+    const autolifeTech = createZone(this, "autolife-ai", "autolife.ai");
     createZone(this, "autolife.dpdns.org", "autolife.dpdns.org");
     createZone(this, "xiongchenyu.dpdns.org", "xiongchenyu.dpdns.org");
-    createZone(this, "sexy.qzz.io", "sexy.qzz.io");
 
     new CloudflareProvider(this, "cloudflare", {
       apiToken: cloudflareApiToken.stringValue,
@@ -82,7 +80,6 @@ You can read more about this at https://cdk.tf/variables*/
     createDnsRecord(this, "rust-server_autolife", autolifeTech, "rust-server", "138.2.95.174", false);
     createDnsRecord(this, "vr_sg_autolife", autolifeTech, "vr-sg", "138.2.95.174", false);
     createDnsRecord(this, "www_autolife", autolifeTech, "www", "138.2.95.174", true);
-    createDnsRecord(this, "ollama", autolifeTech, "ollama", "138.2.95.174", false);
     createDnsRecord(this, "api", autolifeTech, "api", "138.2.95.174", false);
     createCnameRecord(this, "freeman_cname", autolifeTech, "freeman", "cname.vercel-dns.com.");
     createDnsRecord(this, "kanidm", autolifeTech, "kanidm", "213.35.97.233", false);
