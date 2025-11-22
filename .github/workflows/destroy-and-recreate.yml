@@ -1,0 +1,52 @@
+name: Destroy and Recreate Infrastructure
+
+on:
+  workflow_dispatch:
+
+jobs:
+  destroy-and-recreate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.10.5
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Generate module and provider bindings
+        run: npx cdktf-cli get
+
+      - name: First destroy everything (ignore errors)
+        continue-on-error: true
+        uses: hashicorp/terraform-cdk-action@v11.0.2
+        with:
+          cdktfVersion: 0.20.11
+          terraformVersion: 1.10.5
+          stackName: cdktf
+          terraformCloudToken: ${{ secrets.TF_API_TOKEN }}
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          mode: auto-approve-destroy
+          workingDirectory: ./
+        env:
+          TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+      - name: Clean apply from scratch
+        uses: hashicorp/terraform-cdk-action@v11.0.2
+        with:
+          cdktfVersion: 0.20.11
+          terraformVersion: 1.10.5
+          stackName: cdktf
+          terraformCloudToken: ${{ secrets.TF_API_TOKEN }}
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          mode: auto-approve-apply
+          workingDirectory: ./
+        env:
+          TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}

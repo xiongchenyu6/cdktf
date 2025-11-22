@@ -31,19 +31,37 @@ jobs:
 
       - name: Remove invalid resources from state
         working-directory: ./cdktf.out/stacks/cdktf
+        env:
+          TF_TOKEN_app_terraform_io: ${{ secrets.TF_API_TOKEN }}
         run: |
+          # Initialize with cloud backend
           terraform init
 
-          # Remove resources with invalid zone IDs
-          terraform state rm cloudflare_zone.autolife-tech || true
-          terraform state rm cloudflare_zone.sexyqzzio || true
-          terraform state rm cloudflare_dns_record.ollama || true
+          # List all resources first to see what's in state
+          echo "Current state resources:"
+          terraform state list || true
 
-          # Show what's left
-          terraform state list
+          # Remove resources with the actual names from the error logs
+          echo "Removing invalid resources..."
+          terraform state rm 'cloudflare_zone.autolife-tech' || echo "Resource cloudflare_zone.autolife-tech not found"
+          terraform state rm 'cloudflare_zone.sexyqzzio' || echo "Resource cloudflare_zone.sexyqzzio not found"
+          terraform state rm 'cloudflare_dns_record.ollama' || echo "Resource cloudflare_dns_record.ollama not found"
+
+          # Also remove any DNS records that reference the invalid zones
+          for resource in $(terraform state list | grep cloudflare_dns_record); do
+            echo "Checking $resource..."
+            terraform state show "$resource" | grep -q "e6cf32ebd792da633bbbb135019b46af\|b75d00eff0988ca8528bf8cffbe4a2e5" && \
+              terraform state rm "$resource" && echo "Removed $resource" || true
+          done
+
+          echo "Final state resources:"
+          terraform state list || true
 
       - name: Apply correct configuration
         working-directory: ./cdktf.out/stacks/cdktf
         env:
           TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-        run: terraform apply -auto-approve
+          TF_TOKEN_app_terraform_io: ${{ secrets.TF_API_TOKEN }}
+        run: |
+          terraform plan -out=tfplan
+          terraform apply tfplan
