@@ -1,0 +1,7 @@
+# Copy this file to terraform.tfvars and fill in your values
+cloudflare_api_token = "your-40-character-cloudflare-api-token"
+
+# Optional - these have defaults in variables.tf
+# cloudflare_account_id = "2764ae0fd9a5cb92c9ac67708620e54c"
+# home_ip = "138.2.95.174"
+# kanidm_ip = "213.35.97.233"
