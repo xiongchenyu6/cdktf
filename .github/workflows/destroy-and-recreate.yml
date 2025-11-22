@@ -35,8 +35,12 @@ jobs:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           mode: auto-approve-destroy
           workingDirectory: ./
+          commentOnPr: false
+          updateComment: false
+          suppressOutput: false
         env:
           TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          TERRAFORM_CLI_ARGS: "-var=cloudflare_api_token=${{ secrets.CLOUDFLARE_API_TOKEN }}"
 
       - name: Clean apply from scratch
         uses: hashicorp/terraform-cdk-action@v11.0.2
@@ -48,5 +52,9 @@ jobs:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           mode: auto-approve-apply
           workingDirectory: ./
+          commentOnPr: false
+          updateComment: false
+          suppressOutput: false
         env:
           TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          TERRAFORM_CLI_ARGS: "-var=cloudflare_api_token=${{ secrets.CLOUDFLARE_API_TOKEN }}"
