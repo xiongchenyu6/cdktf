@@ -65,24 +65,26 @@ You can read more about this at https://cdk.tf/variables*/
       });
     }
 
-    const autolifeTech = createZone(this, "autolife-ai", "autolife.ai");
-    createZone(this, "autolife.dpdns.org", "autolife.dpdns.org");
-    createZone(this, "xiongchenyu.dpdns.org", "xiongchenyu.dpdns.org");
-
+    // Provider must be created BEFORE resources
     new CloudflareProvider(this, "cloudflare", {
       apiToken: cloudflareApiToken.stringValue,
     });
 
-    createDnsRecord(this, "frp_dashboard_autolife", autolifeTech, "frp-dashboard", "138.2.95.174", false);
-    createDnsRecord(this, "mainpage_autolife", autolifeTech, "autolife-robotics.me", "138.2.95.174", true);
-    createDnsRecord(this, "mngt_autolife", autolifeTech, "mngt", "138.2.95.174", false);
-    createDnsRecord(this, "netbird_autolife", autolifeTech, "netbird", "138.2.95.174", false);
-    createDnsRecord(this, "rust-server_autolife", autolifeTech, "rust-server", "138.2.95.174", false);
-    createDnsRecord(this, "vr_sg_autolife", autolifeTech, "vr-sg", "138.2.95.174", false);
-    createDnsRecord(this, "www_autolife", autolifeTech, "www", "138.2.95.174", true);
-    createDnsRecord(this, "api", autolifeTech, "api", "138.2.95.174", false);
-    createCnameRecord(this, "freeman_cname", autolifeTech, "freeman", "cname.vercel-dns.com.");
-    createDnsRecord(this, "kanidm", autolifeTech, "kanidm", "213.35.97.233", false);
+    // Create zones with correct variable names
+    const autolifeAi = createZone(this, "autolife-ai", "autolife.ai");
+    createZone(this, "autolifedpdnsorg", "autolife.dpdns.org");
+    createZone(this, "xiongchenyudpdnsorg", "xiongchenyu.dpdns.org");
+
+    createDnsRecord(this, "frp_dashboard_autolife", autolifeAi, "frp-dashboard", "138.2.95.174", false);
+    createDnsRecord(this, "mainpage_autolife", autolifeAi, "autolife-robotics.me", "138.2.95.174", true);
+    createDnsRecord(this, "mngt_autolife", autolifeAi, "mngt", "138.2.95.174", false);
+    createDnsRecord(this, "netbird_autolife", autolifeAi, "netbird", "138.2.95.174", false);
+    createDnsRecord(this, "rust-server_autolife", autolifeAi, "rust-server", "138.2.95.174", false);
+    createDnsRecord(this, "vr_sg_autolife", autolifeAi, "vr-sg", "138.2.95.174", false);
+    createDnsRecord(this, "www_autolife", autolifeAi, "www", "138.2.95.174", true);
+    createDnsRecord(this, "api", autolifeAi, "api", "138.2.95.174", false);
+    createCnameRecord(this, "freeman_cname", autolifeAi, "freeman", "cname.vercel-dns.com.");
+    createDnsRecord(this, "kanidm", autolifeAi, "kanidm", "213.35.97.233", false);
 
   }
 }
