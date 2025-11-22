@@ -1,0 +1,37 @@
+name: Apply Using Terraform Cloud Variables
+
+on:
+  workflow_dispatch:
+
+jobs:
+  apply-tfc:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Generate module and provider bindings
+        run: npx cdktf-cli get
+
+      - name: Apply using Terraform Cloud variables
+        uses: hashicorp/terraform-cdk-action@v11.0.2
+        with:
+          cdktfVersion: 0.20.11
+          terraformVersion: 1.10.5
+          stackName: cdktf
+          terraformCloudToken: ${{ secrets.TF_API_TOKEN }}
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          mode: auto-approve-apply
+          workingDirectory: ./
+          commentOnPr: false
+          updateComment: false
+          suppressOutput: false
+        # Don't set TF_VAR_cloudflare_api_token here
+        # Let Terraform Cloud provide it from its variables
