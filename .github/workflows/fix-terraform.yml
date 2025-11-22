@@ -1,0 +1,46 @@
+name: Fix Terraform State
+
+on:
+  workflow_dispatch:
+
+jobs:
+  fix-state:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Synthesize CDKTF
+        run: npx cdktf synth
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.10.5
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+      - name: Remove invalid resources from state
+        working-directory: ./cdktf.out/stacks/cdktf
+        run: |
+          terraform init
+
+          # Remove resources with invalid zone IDs
+          terraform state rm cloudflare_zone.autolife-tech || true
+          terraform state rm cloudflare_zone.sexyqzzio || true
+          terraform state rm cloudflare_dns_record.ollama || true
+
+          # Show what's left
+          terraform state list
+
+      - name: Apply correct configuration
+        working-directory: ./cdktf.out/stacks/cdktf
+        env:
+          TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: terraform apply -auto-approve
