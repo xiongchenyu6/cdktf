@@ -12,13 +12,16 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Install dependencies
-        run: npm install
+        run: yarn install
+
+      - name: Generate provider bindings
+        run: npx cdktf-cli get
 
       - name: Synthesize CDKTF
-        run: npx cdktf synth
+        run: npx cdktf-cli synth
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
