@@ -56,7 +56,7 @@ variable "game_ip" {
 variable "gz_office_ip" {
   description = "Guangzhou office server IP (gz-office, port 2222, user autolife)"
   type        = string
-  default     = "183.6.107.47"
+  default     = "112.94.11.147"
 }
 
 variable "lubancat_ip" {
