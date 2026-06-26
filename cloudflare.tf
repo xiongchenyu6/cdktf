@@ -1,10 +1,17 @@
-# Cloudflare zone and DNS records for panda.qzz.io (personal)
+# Cloudflare zones and DNS records (personal)
 
 resource "cloudflare_zone" "panda_qzz_io" {
   account = {
     id = var.cloudflare_account_id
   }
   name = "panda.qzz.io"
+}
+
+resource "cloudflare_zone" "boob_qzz_io" {
+  account = {
+    id = var.cloudflare_account_id
+  }
+  name = "boob.qzz.io"
 }
 
 resource "cloudflare_dns_record" "casibase" {
