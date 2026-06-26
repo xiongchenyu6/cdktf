@@ -1,19 +1,19 @@
-# Terraform
+# Local .terraform directories
 **/.terraform/*
+
+# .tfstate files (state is managed by HCP Terraform)
 *.tfstate
 *.tfstate.*
-*.tfvars
-*.tfvars.json
-.terraform.lock.hcl
+
+# Crash log files
 crash.log
 crash.*.log
 
-# OS
-.DS_Store
-Thumbs.db
+# Variable files with real secrets
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
 
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
+# CLI configuration files
+.terraformrc
+terraform.rc

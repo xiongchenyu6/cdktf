@@ -8,11 +8,14 @@ terraform {
     }
   }
 
+  # HCP Terraform workspace "xiongchenyu6" (org autolife-robotics), VCS-driven
+  # from github.com/xiongchenyu6/terraform. Auto-apply is off — runs trigger on
+  # push but apply is confirmed manually.
   cloud {
     organization = "autolife-robotics"
 
     workspaces {
-      name = "dotfiles"
+      name = "xiongchenyu6"
     }
   }
 }
