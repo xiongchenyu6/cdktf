@@ -6,6 +6,10 @@ terraform {
       source  = "cloudflare/cloudflare"
       version = "~> 5.0"
     }
+    dns-he-net = {
+      source  = "SuperBuker/dns-he-net"
+      version = "~> 0.1"
+    }
   }
 
   # HCP Terraform workspace "xiongchenyu6" (org autolife-robotics), VCS-driven
