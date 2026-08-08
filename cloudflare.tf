@@ -127,15 +127,16 @@ resource "cloudflare_dns_record" "realtime_wildcard" {
 }
 
 # Worldsmith managed-ComfyUI ingress (replaces the expired
-# comfy.autolfie.ddns.net no-ip entry). DNS-only: TLS + bearer auth
-# terminate at oracle-amd-002's nginx, which forwards over wireguard
-# to the sg-office GPU box. Proxying through Cloudflare would add the
+# comfy.autolfie.ddns.net no-ip entry). Points straight at sg-office's
+# static public IP — the box's caddy (services.comfyui-proxy in the
+# autolife nixos repo) terminates TLS + bearer auth itself, same as
+# the DDNS era. DNS-only: proxying through Cloudflare would add the
 # 100s edge timeout on top of multi-minute video renders for no
 # benefit — the Pages Function is the only intended client.
 resource "cloudflare_dns_record" "comfy" {
   zone_id = cloudflare_zone.panda_qzz_io.id
   name    = "comfy"
-  content = var.oracle_amd_002_ip
+  content = var.sg_office_ip
   type    = "A"
   ttl     = 1
   proxied = false

@@ -43,3 +43,9 @@ variable "gz_office_ip" {
   type        = string
   default     = "112.94.11.147"
 }
+
+variable "sg_office_ip" {
+  description = "Singapore office GPU box IP (sg-office — ComfyUI ingress)"
+  type        = string
+  default     = "101.78.126.6"
+}
