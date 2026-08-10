@@ -221,3 +221,41 @@ resource "cloudflare_dns_record" "dmarc" {
     create_before_destroy = true
   }
 }
+
+# hysteria2 egress nodes for sub2api's outbound path.
+#
+# sub2api runs on the Tencent HK box, which cannot reach api.openai.com
+# directly, so it proxies out through nodes we own. Measured on that
+# link: shadowsocks tops out at ~16 KB/s while both ends manage 8-9 MB/s
+# on their own — the cross-border segment throttles TCP tunnels hard.
+# hysteria2 (UDP/QUIC + Brutal congestion control) does not take that
+# hit and measures ~3 MB/s over the same path.
+#
+# These records exist purely so each node can hold an ACME certificate
+# for its hysteria2 TLS listener; nothing is served over HTTP on them.
+# DNS-only — proxying through Cloudflare would break a UDP listener.
+resource "cloudflare_dns_record" "hy2_sg" {
+  zone_id = cloudflare_zone.panda_qzz_io.id
+  name    = "hy2-sg"
+  content = var.sg_office_ip
+  type    = "A"
+  ttl     = 1
+  proxied = false
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "cloudflare_dns_record" "hy2_lubancat" {
+  zone_id = cloudflare_zone.panda_qzz_io.id
+  name    = "hy2-lubancat"
+  content = var.lubancat_ip
+  type    = "A"
+  ttl     = 1
+  proxied = false
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}

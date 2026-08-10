@@ -49,3 +49,9 @@ variable "sg_office_ip" {
   type        = string
   default     = "101.78.126.6"
 }
+
+variable "lubancat_ip" {
+  description = "LubanCat-5IO SBC in the Singapore office (hysteria2 egress node)"
+  type        = string
+  default     = "203.116.95.146"
+}
