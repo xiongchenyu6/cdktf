@@ -1,5 +1,5 @@
 variable "cloudflare_api_token" {
-  description = "Cloudflare API Token (needs DNS edit + zone create permissions)"
+  description = "Cloudflare API Token with at least Workers Scripts Read + Workers Scripts Write permissions (plus any required Zone/DNS permissions if DNS resources are managed)."
   type        = string
   sensitive   = true
 }

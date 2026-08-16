@@ -259,3 +259,13 @@ resource "cloudflare_dns_record" "hy2_lubancat" {
     create_before_destroy = true
   }
 }
+
+# hysteria2 订阅端点:把 sub.panda.qzz.io 路由到 autolife-sub Worker。
+# Worker 脚本本身由 wrangler 部署(~/Downloads/karing-hy2/sub-worker),
+# token 鉴权在脚本内;这里只做自定义域绑定,CF 自动签边缘证书 + 建 DNS。
+resource "cloudflare_workers_custom_domain" "sub" {
+  account_id  = var.cloudflare_account_id
+  zone_id     = cloudflare_zone.panda_qzz_io.id
+  hostname    = "sub.panda.qzz.io"
+  service     = "autolife-sub"
+}
